@@ -15,6 +15,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
+fsfsdf
+
 ### HTML
 
 
@@ -37,6 +39,8 @@ library(jsonlite)
 
 ```
 
+---
+
 # Import HTML File into Data Frame
 
 To import the HTML file stored within the GitHub repository, I will use the *read_html()* function within the *rvest* library. This will then allow me to bring in the table using *read_table()* function to transform the html table into a data frame. 
@@ -56,6 +60,8 @@ df_html <-
 knitr::kable(df_html)
 
 ```
+
+---
 
 ## Import XML File into Data Frame
 
@@ -110,10 +116,19 @@ knitr::kable(df_xml)
 
 ```
 
+---
+
 ## Import JSON File into Data Frame
 
 ```{r import-json}
 
 url <- 'https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.json'
 
-read_json(url)
+df_json <- 
+  as.data.frame(read_json(url, simplifyVector = TRUE)) |> 
+  janitor::clean_names()
+
+
+knitr::kable(df_json)
+
+```
