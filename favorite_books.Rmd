@@ -8,25 +8,112 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
-## R Markdown
+## Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### HTML
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+### XML
+
+
+### JSON
+
+---
+
+## Import Libraries
+
+
+```{r library, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(rvest)
+library(xml2)
+library(jsonlite)
+
 ```
 
-## Including Plots
+# Import HTML File into Data Frame
 
-You can also embed plots, for example:
+To import the HTML file stored within the GitHub repository, I will use the *read_html()* function within the *rvest* library. This will then allow me to bring in the table using *read_table()* function to transform the html table into a data frame. 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r import-html}
+
+url <- 'https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.html'
+
+html <- 
+  read_html(url) |> 
+  html_table()
+
+df_html <-
+  as.data.frame(html) |> 
+  janitor::clean_names()
+
+knitr::kable(df_html)
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Import XML File into Data Frame
+
+To import the XML file stored within the GitHub repository, I will use the *read_xml()* function within the *xml2* library. 
+
+```{r import-xml}
+
+url<- 'https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.xml'
+  
+read_xml(url) |> 
+  xml_structure()
+
+```
+
+```{r transform-xml-dataframe}
+
+xml_title <- 
+  read_xml(url) |> 
+  xml_find_all(xpath = "//title") |> 
+  xml_text()
+
+xml_authors <- 
+  read_xml(url) |> 
+  xml_find_all(xpath = "//authors") |> 
+  xml_text()
+
+xml_publisher <- 
+  read_xml(url) |> 
+  xml_find_all(xpath = "//publisher") |> 
+  xml_text()
+
+xml_published <- 
+  read_xml(url) |> 
+  xml_find_all(xpath = "//published") |> 
+  xml_text()
+
+xml_isbn_13 <- 
+  read_xml(url) |> 
+  xml_find_all(xpath = "//isbn_13") |> 
+  xml_text()
+
+xml_rank <- 
+  read_xml(url) |> 
+  xml_find_all(xpath = "//best_sellers_rank") |> 
+  xml_text()
+
+df_xml <- 
+  tibble(title = xml_title, author_s = xml_authors, publisher = xml_publisher, published = xml_published,
+             isbn_13 = xml_isbn_13, best_sellers_rank = xml_rank)
+
+knitr::kable(df_xml)
+
+```
+
+## Import JSON File into Data Frame
+
+```{r import-json}
+
+url <- 'https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.json'
+
+read_json(url)
