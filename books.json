@@ -1,0 +1,30 @@
+{
+	"fav_books": {
+		"book": [
+			{
+				"title": "Starting Out with C++ from Control Structures to Objects",
+				"authors": "Tony Gaddis",
+				"publisher": "Pearson",
+				"published": "February 13, 2017",
+				"isbn_13": "978-0134498379",
+				"best_sellers_rank": "95,825"
+			},
+			{
+				"title": "An Introduction to Statistical Learning: with Applications in R",
+				"authors": "Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani",
+				"publisher": "Springer",
+				"published": "July 30, 2021",
+				"isbn_13": "978-1071614174",
+				"best_sellers_rank": "29,107"
+			},
+			{
+				"title": "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems",
+				"authors": "Aurélien Géron",
+				"publisher": "O'Reilly Media",
+				"published": "October 15, 2019",
+				"isbn_13": "978-1492032649",
+				"best_sellers_rank": "18,543"
+			}
+		]
+	}
+}
