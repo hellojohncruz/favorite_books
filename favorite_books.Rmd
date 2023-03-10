@@ -3,8 +3,8 @@ title: "Favorite Books"
 author: "John Cruz"
 date: "2023-03-08"
 output: 
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -15,20 +15,25 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-fsfsdf
+This project focuses on working with different types of files for analysis. I will be manually creating an HTML, XML and JSON formats that stores three of my favorite books related to data science and programming. Each file will store the title, author(s), publisher, published date, ISBN-13, and a best sellers rank from Amazon's website. The rankings were collected March 8, 2023. 
+
+---
 
 ### HTML
 
+HTML files is minimally comprised up of HTML elements and attributes. The HTML file storing my book data contains a web page title inside *\<head\>*, heading *\<h1\>* and *\<table\>*. The *\<table\>* is built using table headers *\<th\>* and table data *\<td\>*, similar to an Excel spreadsheet. 
 
 ### XML
 
+XML forms a parent/child tree that stores information based on their relationship to each other. My XML file uses the "trunk" of the tree called *\<fav_books\>*.  It then branches out into separate branches called *\<book\>*. Each *\<book\>* then contains the "leaves", unique information based on said book such as *\<title\>* and *\<authors\>*. 
 
 ### JSON
+
+JSON can be compared similarly to Python's dictionaries. It contains a key:value pair that identifies the objects. To store my books, it is in a nested dictionary with key:value pairs such as fav_books:book:title, where the title is stored in book and book is store in fav_books. 
 
 ---
 
 ## Import Libraries
-
 
 ```{r library, message=FALSE, warning=FALSE}
 
@@ -65,7 +70,7 @@ knitr::kable(df_html)
 
 ## Import XML File into Data Frame
 
-To import the XML file stored within the GitHub repository, I will use the *read_xml()* function within the *xml2* library. 
+To import the XML file stored within the GitHub repository, I will use the *read_xml()* function within the *xml2* library. We then can see the structure of the XML file using *xml_structure()*
 
 ```{r import-xml}
 
@@ -75,6 +80,8 @@ read_xml(url) |>
   xml_structure()
 
 ```
+
+To transform the portions of the XML file, I stored into vectors each "leaf" data, then created a tibble combining them all into one.
 
 ```{r transform-xml-dataframe}
 
@@ -120,6 +127,11 @@ knitr::kable(df_xml)
 
 ## Import JSON File into Data Frame
 
+To import the JSON file stored within the GitHub repository, I will use the *read_json()* function within the *jsonlite* library. We use the *simplifyVector = TRUE* parameter to create vectors that can be read into a data frame. Finally, using *clean_names()*, this will clean up the column names in the data frame. 
+
+What we do notice about the column names is that it creates a snake case format of how each key to value was reached. For example, for *title*, it required to go through fav_books > book > title to reach the data. 
+ 
+
 ```{r import-json}
 
 url <- 'https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.json'
@@ -132,3 +144,9 @@ df_json <-
 knitr::kable(df_json)
 
 ```
+
+---
+
+## Conclusion
+
+To import the data, we can utilize multiple formats to obtain the information inside a data frame. However, some column and data formatting may be required to get them all into a standardized form. 

@@ -359,15 +359,38 @@ display: none;
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>fsfsdf</p>
+<p>This project focuses on working with different types of files for
+analysis. I will be manually creating an HTML, XML and JSON formats that
+stores three of my favorite books related to data science and
+programming. Each file will store the title, author(s), publisher,
+published date, ISBN-13, and a best sellers rank from Amazon’s website.
+The rankings were collected March 8, 2023.</p>
+<hr />
 <div id="html" class="section level3">
 <h3>HTML</h3>
+<p>HTML files is minimally comprised up of HTML elements and attributes.
+The HTML file storing my book data contains a web page title inside
+<em>&lt;head&gt;</em>, heading <em>&lt;h1&gt;</em> and
+<em>&lt;table&gt;</em>. The <em>&lt;table&gt;</em> is built using table
+headers <em>&lt;th&gt;</em> and table data <em>&lt;td&gt;</em>, similar
+to an Excel spreadsheet.</p>
 </div>
 <div id="xml" class="section level3">
 <h3>XML</h3>
+<p>XML forms a parent/child tree that stores information based on their
+relationship to each other. My XML file uses the “trunk” of the tree
+called <em>&lt;fav_books&gt;</em>. It then branches out into separate
+branches called <em>&lt;book&gt;</em>. Each <em>&lt;book&gt;</em> then
+contains the “leaves”, unique information based on said book such as
+<em>&lt;title&gt;</em> and <em>&lt;authors&gt;</em>.</p>
 </div>
 <div id="json" class="section level3">
 <h3>JSON</h3>
+<p>JSON can be compared similarly to Python’s dictionaries. It contains
+a key:value pair that identifies the objects. To store my books, it is
+in a nested dictionary with key:value pairs such as
+fav_books:book:title, where the title is stored in book and book is
+store in fav_books.</p>
 <hr />
 </div>
 </div>
@@ -452,8 +475,9 @@ Systems</td>
 <div id="import-xml-file-into-data-frame" class="section level2">
 <h2>Import XML File into Data Frame</h2>
 <p>To import the XML file stored within the GitHub repository, I will
-use the <em>read_xml()</em> function within the <em>xml2</em>
-library.</p>
+use the <em>read_xml()</em> function within the <em>xml2</em> library.
+We then can see the structure of the XML file using
+<em>xml_structure()</em></p>
 <pre class="r"><code>url&lt;- &#39;https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.xml&#39;
   
 read_xml(url) |&gt; 
@@ -498,6 +522,8 @@ read_xml(url) |&gt;
 ##       {text}
 ##     &lt;best_sellers_rank&gt;
 ##       {text}</code></pre>
+<p>To transform the portions of the XML file, I stored into vectors each
+“leaf” data, then created a tibble combining them all into one.</p>
 <pre class="r"><code>xml_title &lt;- 
   read_xml(url) |&gt; 
   xml_find_all(xpath = &quot;//title&quot;) |&gt; 
@@ -588,9 +614,22 @@ Systems</td>
 </div>
 <div id="import-json-file-into-data-frame" class="section level2">
 <h2>Import JSON File into Data Frame</h2>
+<p>To import the JSON file stored within the GitHub repository, I will
+use the <em>read_json()</em> function within the <em>jsonlite</em>
+library. We use the <em>simplifyVector = TRUE</em> parameter to create
+vectors that can be read into a data frame. Finally, using
+<em>clean_names()</em>, this will clean up the column names in the data
+frame.</p>
+<p>What we do notice about the column names is that it creates a snake
+case format of how each key to value was reached. For example, for
+<em>title</em>, it required to go through fav_books &gt; book &gt; title
+to reach the data.</p>
 <pre class="r"><code>url &lt;- &#39;https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.json&#39;
 
-df_json &lt;- as.data.frame(read_json(url, simplifyVector = TRUE))
+df_json &lt;- 
+  as.data.frame(read_json(url, simplifyVector = TRUE)) |&gt; 
+  janitor::clean_names()
+
 
 knitr::kable(df_json)</code></pre>
 <table>
@@ -604,12 +643,12 @@ knitr::kable(df_json)</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">fav_books.book.title</th>
-<th align="left">fav_books.book.authors</th>
-<th align="left">fav_books.book.publisher</th>
-<th align="left">fav_books.book.published</th>
-<th align="left">fav_books.book.isbn_13</th>
-<th align="left">fav_books.book.best_sellers_rank</th>
+<th align="left">fav_books_book_title</th>
+<th align="left">fav_books_book_authors</th>
+<th align="left">fav_books_book_publisher</th>
+<th align="left">fav_books_book_published</th>
+<th align="left">fav_books_book_isbn_13</th>
+<th align="left">fav_books_book_best_sellers_rank</th>
 </tr>
 </thead>
 <tbody>
@@ -644,6 +683,13 @@ Systems</td>
 </tr>
 </tbody>
 </table>
+<hr />
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>To import the data, we can utilize multiple formats to obtain the
+information inside a data frame. However, some column and data
+formatting may be required to get them all into a standardized form.</p>
 </div>
 </div>
 
