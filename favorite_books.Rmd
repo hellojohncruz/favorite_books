@@ -5,6 +5,7 @@ date: "2023-03-08"
 output: 
   pdf_document: default
   html_document: default
+urlcolor: blue
 ---
 
 ```{r setup, include=FALSE}
@@ -15,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-This project focuses on working with different types of files for analysis. I will be manually creating an HTML, XML and JSON formats that stores three of my favorite books related to data science and programming. Each file will store the title, author(s), publisher, published date, ISBN-13, and a best sellers rank from Amazon's website. The rankings were collected March 8, 2023. 
+This project focuses on working with different types of files for analysis. I will be manually creating HTML, XML and JSON formats that store three of my favorite books related to data science and programming. Each file will store the title, author(s), publisher, published date, ISBN-13, and a best sellers rank from Amazon's website. The rankings were collected March 8, 2023. 
 
 ---
 
@@ -23,13 +24,19 @@ This project focuses on working with different types of files for analysis. I wi
 
 HTML files is minimally comprised up of HTML elements and attributes. The HTML file storing my book data contains a web page title inside *\<head\>*, heading *\<h1\>* and *\<table\>*. The *\<table\>* is built using table headers *\<th\>* and table data *\<td\>*, similar to an Excel spreadsheet. 
 
+[books.html](https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.html)
+
 ### XML
 
 XML forms a parent/child tree that stores information based on their relationship to each other. My XML file uses the "trunk" of the tree called *\<fav_books\>*.  It then branches out into separate branches called *\<book\>*. Each *\<book\>* then contains the "leaves", unique information based on said book such as *\<title\>* and *\<authors\>*. 
 
+[books.xml](https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.xml)
+
 ### JSON
 
 JSON can be compared similarly to Python's dictionaries. It contains a key:value pair that identifies the objects. To store my books, it is in a nested dictionary with key:value pairs such as fav_books:book:title, where the title is stored in book and book is store in fav_books. 
+
+[books.json](https://raw.githubusercontent.com/hellojohncruz/favorite_books/main/books.json)
 
 ---
 
